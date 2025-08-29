@@ -3,6 +3,7 @@ require("module-alias/register")
 const express=require("express")
 const http = require("http")
 const cors=require("cors")
+const cookieParser = require("cookie-parser");
 const connectDB=require("@config/Database")
 const {HOST,PORT}=require("@config/index")
 const ResponseHandlerMiddleware=require("@middlewares/ResposeHandler")
@@ -20,10 +21,14 @@ const app=express()
 connectDB()
 
 
-app.use(cors())
+app.use(cors({
+  origin: "http://localhost:3001",  
+  credentials: true,  
+}))
 app.use(express.json());
 app.use(ResponseHandlerMiddleware)
 app.use(authorisationMiddleware)
+app.use(cookieParser());
 // Route handler middlewares
 app.use("/user",UserRoutes)
 app.use("/students",StudentRoutes)

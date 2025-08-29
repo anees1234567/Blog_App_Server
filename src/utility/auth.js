@@ -21,7 +21,7 @@ const generateToken = async (req, res, next) => {
     const accessToken = jwt.sign(
       { id: user._id, email: user.email },
       SECRET_KEY,
-      { expiresIn: "15m" } 
+      { expiresIn: "1m" } 
     );
 
     const refreshToken = jwt.sign(
@@ -29,11 +29,24 @@ const generateToken = async (req, res, next) => {
       REFRESH_SECRET,
       { expiresIn: "7d" } 
     );
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 60 * 60 * 1000, // 1 hou
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
     user.refreshToken = refreshToken;
     await user.save();
     return {
-        accessToken,
-        refreshToken,
         name: user.name,
         email: user.email,
         id: user._id,
@@ -45,7 +58,7 @@ const generateToken = async (req, res, next) => {
 
 const refreshTokenHandler = async (req, res, next) => {
   try {
-    const { refreshtoken } = req.body; 
+    const refreshtoken = req.cookies?.refreshToken;
     if (!refreshtoken) {
       return res.status(401).json({ message: "Refresh token missing" });
     }
@@ -61,7 +74,13 @@ const refreshTokenHandler = async (req, res, next) => {
       SECRET_KEY,
       { expiresIn: "15m" } 
     );
-    return { accessToken: newAccessToken };
+     res.cookie("accessToken", newAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", 
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000, // 15 min
+    });
+    return 
 
   } catch (error) {
     throw new Error(error.message || "Failed to refresh token.");

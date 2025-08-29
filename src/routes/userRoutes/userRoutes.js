@@ -4,7 +4,7 @@ const {getAlluser,createUser,getUserById,deleteUser,loginUser,refreshToken}=requ
 
 Router.get("/getAllUser",getAlluser)
 Router.post("/loginUser",loginUser)
-Router.post("/refresh",refreshToken)
+Router.get("/refresh",refreshToken)
 Router.post("/createUser",createUser)
 Router.post("/getUserById/:id",getUserById)
 Router.delete("/deleteUser/:id",deleteUser)
