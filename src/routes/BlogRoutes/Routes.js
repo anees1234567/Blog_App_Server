@@ -1,11 +1,14 @@
-const { getAllBlog, addBlog, getBlogById, deleteBlog } = require("@/Controller/Blogs/BlogController")
+const { getAllBlog, addBlog, getBlogById, deleteBlog, createComment, getCommentsByBlogId, deleteComment } = require("@/Controller/Blogs/BlogController")
 const express=require("express")
 const Router=express.Router()
 
 
-Router.get("/getAllBlogs",getAllBlog)
-Router.post("/AddBlog",addBlog)
-Router.get("/getBlogById/:id",getBlogById)
+Router.post("/getAllBlogs",getAllBlog)
+Router.post("/createBlog",addBlog)
+Router.get("/getBlogsByUser/:id",getBlogById)
 Router.delete("/deleteBlog/:id",deleteBlog)
+Router.post("/createComment",createComment)
+Router.get("/getAllComments/:id",getCommentsByBlogId)
+Router.delete("/deleteComment/:id",deleteComment)
 
 module.exports=Router
