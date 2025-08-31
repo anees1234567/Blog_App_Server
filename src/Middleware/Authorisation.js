@@ -4,7 +4,7 @@ const { TokenError } = require("@utility/errors");
 
 async function authorisation(req, res, next) {
   try {
-    const openPaths = ["/user/createUser", "/user/loginUser", "/user/refresh"];
+    const openPaths = ["/user/createUser", "/user/loginUser", "/user/refresh", "/blog/getAllBlogs"];
     if (openPaths.includes(req.path)) {
       return next();
     }
