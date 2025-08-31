@@ -36,7 +36,7 @@ const generateToken = async (req, res, next) => {
       sameSite: "none",
       maxAge: 60 * 60 * 1000, 
        path: "/",
-       sameSite: "lax",
+
     });
 
     res.cookie("refreshToken", refreshToken, {
@@ -45,7 +45,6 @@ const generateToken = async (req, res, next) => {
       sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
        path: "/",
-       sameSite: "lax", 
     });
 
     user.refreshToken = refreshToken;
@@ -87,7 +86,7 @@ const refreshTokenHandler = async (req, res, next) => {
       sameSite: "none",
       maxAge: 15 * 60 * 1000, 
        path: "/",
-       sameSite: "lax",
+
     });
     return 
 
