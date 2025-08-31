@@ -34,14 +34,18 @@ const generateToken = async (req, res, next) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "none",
-      maxAge: 60 * 60 * 1000, // 1 hou
+      maxAge: 60 * 60 * 1000, 
+       path: "/",
+       sameSite: "lax",
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+       path: "/",
+       sameSite: "lax", 
     });
 
     user.refreshToken = refreshToken;
@@ -82,6 +86,8 @@ const refreshTokenHandler = async (req, res, next) => {
       secure: process.env.NODE_ENV === "production", 
       sameSite: "none",
       maxAge: 15 * 60 * 1000, 
+       path: "/",
+       sameSite: "lax",
     });
     return 
 
