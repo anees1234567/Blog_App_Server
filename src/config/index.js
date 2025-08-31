@@ -8,7 +8,7 @@ const REFRESH_SECRET=process.env.RefreshKey
 
 const allowedOrigins = [
   "http://localhost:3000",   
-  "https://blogiflow.netlify.app/" 
+  "https://blogiflow.netlify.app" 
 ];
 
 
