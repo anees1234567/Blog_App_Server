@@ -27,9 +27,28 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters long"]
     },
+    role: {
+      type: String,
+      enum: ["Admin", "User"], 
+      default: "User", 
+      required: true,
+    },
+    avatar:{
+      type:String,
+      required:true,
+      default:"https://www.sheridanbowles.co.uk/wp-content/uploads/2023/04/avatar-1.jpg"
+    },
+    bio:{
+      type:String,
+      required:false
+    },
     refreshToken: {
       type: String, 
       default: null,
+    },
+    isDeleted: {
+      type: Boolean, 
+      default: false,
     },
   },
   {

@@ -18,7 +18,7 @@ async function getUserById(req, res, next) {
   try {
     const userId = req.params.id;
     const user = await userService.getUserByIdService(userId);
-    res.send(200,user,"user details fetched succesfully")
+    res.success(200,user,"user details fetched succesfully")
   } catch (error) {
     next(error); 
   }
@@ -28,10 +28,10 @@ async function createUser(req,res,next){
     try{    
         if(req.body?.id){
             const result =await userService?.updateUserService(req.body)
-            res.success(200,{name:result.name},"user Updated succesfully")
+            res.success(200,result,"user Updated succesfully")
         }else{
             const result = await userService?.createUserService(req.body)
-            res.success(200,{name:result.name},"User created succsfully")
+            res.success(200,result,"User created succsfully")
         }
     }catch(error){
         next(error)

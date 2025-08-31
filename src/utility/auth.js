@@ -8,7 +8,7 @@ const generateToken = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email, isDeleted: false });
   
     
     if (!user) {
@@ -21,7 +21,7 @@ const generateToken = async (req, res, next) => {
     const accessToken = jwt.sign(
       { id: user._id, email: user.email },
       SECRET_KEY,
-      { expiresIn: "1m" } 
+      { expiresIn: "15m" } 
     );
 
     const refreshToken = jwt.sign(
@@ -50,6 +50,9 @@ const generateToken = async (req, res, next) => {
         name: user.name,
         email: user.email,
         id: user._id,
+        avatar:user.avatar,
+        bio:user.bio,
+        role:user.role
     }
   } catch (error) {
     throw new Error(error.message || "Failed to generate token.");

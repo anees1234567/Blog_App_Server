@@ -8,11 +8,11 @@ async function authorisation(req, res, next) {
     if (openPaths.includes(req.path)) {
       return next();
     }
-    const authHeader = req.headers["authorization"];
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      throw new TokenError("Authorization failed: No token provided");
-    }
-    const token = authHeader.split(" ")[1]; 
+
+    const token = req.cookies?.accessToken; 
+    if (!token) {
+      throw new TokenError("Token not found in cookie");
+    } 
     const decoded = jwt.verify(token, SECRET_KEY);
     req.user = decoded;
     next();

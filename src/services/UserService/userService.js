@@ -5,7 +5,7 @@ const User = require("@models/UserModel/UserModel");
 // Get all users
 async function getAllUsersService() {
   try {
-    const users = await User.find({});
+    const users = await User.find({isDeleted:false}).select('-password');
     return users; 
   } catch (error) {
     throw new Error("Failed to retrieve users."); 
@@ -31,7 +31,10 @@ async function createUserService(userData) {
   try {
     const newUser = new User(userData);
     const savedUser = await newUser.save(); 
-    return savedUser;
+    const userObj = savedUser.toObject();
+    delete userObj.password;
+
+    return userObj;
   } catch (error) {
     console.error("Error creating user:", error);
     if(error.code==11000){
@@ -45,26 +48,41 @@ async function createUserService(userData) {
 
 async function updateUserService(userData) {
   try {
-    const body={
-        name:userData?.name,
-    }
+    const body = {};
+    if (userData?.name) body.name = userData.name;
+    if (userData?.email) body.email = userData.email;
+    if (userData?.avatar) body.avatar = userData.avatar;
+    if (userData?.bio) body.bio = userData.bio;
+    if(userData?.isDeleted) body.isDeleted=userData.isDeleted
+   
+
     const updatedUser = await User.findByIdAndUpdate(userData?.id, body, {
-      new: true, 
-      runValidators:false
+      new: true,           
+      runValidators: true,
     });
+
     if (!updatedUser) {
       throw new NotFoundError("User not found for update.");
     }
-    return updatedUser;
+   return {
+      id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      avatar: updatedUser.avatar,
+      bio: updatedUser.bio,
+      role: updatedUser.role,
+      createdAt: updatedUser.createdAt,
+      updatedAt: updatedUser.updatedAt,
+    };
   } catch (error) {
     console.error("Error updating user:", error);
-    if(error instanceof NotFoundError){
-        throw error
-    }else{
-        throw new Error("Failed to update user.");
+    if (error instanceof NotFoundError) {
+      throw error;
     }
+    throw new Error("Failed to update user.");
   }
 }
+
 
 
 async function deleteUserService(userId) {

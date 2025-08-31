@@ -12,10 +12,6 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: [true, "Content is required"],
     },
-    tag: {
-      type: [String],
-      required: [true, "At least one tag is required"],
-    },
     authorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User", 
