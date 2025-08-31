@@ -6,8 +6,11 @@ const HOST = process.env.HOST || 'localhost'
 const SECRET_KEY =process.env.TokenKey
 const REFRESH_SECRET=process.env.RefreshKey
 
+const allowedOrigins = [
+  "http://localhost:3000",   
+  "https://blogiflow.netlify.app/" 
+];
 
 
-
-module.exports={PORT,DB_URL,HOST,SECRET_KEY,REFRESH_SECRET}
+module.exports={PORT,DB_URL,HOST,SECRET_KEY,REFRESH_SECRET,allowedOrigins}
 

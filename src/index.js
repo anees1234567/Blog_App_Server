@@ -5,7 +5,7 @@ const http = require("http")
 const cors=require("cors")
 const cookieParser = require("cookie-parser");
 const connectDB=require("@config/Database")
-const {HOST,PORT}=require("@config/index")
+const {HOST,PORT, allowedOrigins}=require("@config/index")
 const ResponseHandlerMiddleware=require("@middlewares/ResposeHandler")
 const ErrorHandlerMiddleware=require("@middlewares/ErrorHandler")
 const authorisationMiddleware=require("@middlewares/Authorisation")
@@ -24,7 +24,7 @@ connectDB()
 
 
 app.use(cors({
-  origin: "http://localhost:3001",  
+  origin: allowedOrigins,  
   credentials: true,  
 }))
 app.use(cookieParser());
