@@ -20,3 +20,11 @@
 - npm install
 - cd src 
 - nodemon index.js
+
+## environmental Variables
+- TokenKey="passkey#321"
+- RefreshKey="keypass#321"
+- NODE_ENV="production"
+- databaseUrl=mongodb+srv://anees:devConnect123@bookingappcluster.q4ltt.mongodb.net/test?retryWrites=true&w=majority&appName=bookingAppCluster
+
+
